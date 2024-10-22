@@ -1,0 +1,16 @@
+# app_config.yaml
+name: MyApplication
+version: 1.0
+parameters:
+  max_users: 8
+  secret_key: null  # Unset value
+  session_cookie_name: null  # Unset value
+  max_content_length: null  # Unset value
+  debug_mode: true
+servers:
+  production:
+    address: "0.0.0.0"
+    port: 8080
+  development:
+    address: "localhost"
+    port: 8000
