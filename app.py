@@ -79,6 +79,36 @@ assistant = client.beta.assistants.update(
     assistant_id=assistant.id,
     tool_resources={"file_search": {"vector_store_ids": vector_store_ids}},
 )
+# Upload a file with an "assistants" purpose
+# file_names = ["C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_EfficiencyCT.xlsx", 
+#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_FTT.xlsx", 
+#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_LineUsage&TaktTimeByproduct.xlsx",
+#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_Repairs.xlsx",
+#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_TestStepsFailures.xlsx"]
+
+# Crear los archivos en el servidor
+# file_ids = []
+# for file_name in file_names:
+#     file = client.files.create(
+#         file=open(file_name, "rb"),
+#         purpose='assistants'
+#     )
+#     file_ids.append(file.id)
+
+
+# assistant = client.beta.assistants.create(
+#     instructions="",
+#     model=model,
+#     tools=[{"type": "code_interpreter"}],
+# )
+# assistant = client.beta.assistants.update(
+#     assistant_id=assistant.id,
+#     tool_resources={
+#     "code_interpreter": {
+#       "file_ids": [file_ids]
+#     }
+#   }
+# )
 
 @app.route('/')
 def index():
