@@ -7,19 +7,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Header con el logo de la empresa -->
+    <!-- Contenedor de preguntas arriba del chat, centrado -->
+    <div class="questions-container">
+        <div class="questions-header">
+            <h2>Suggested Questions</h2>
+            <button class="toggle-visibility" onclick="toggleQuestions()">▼</button>
+        </div>
+        <div id="questions-list" class="questions-list"></div>
+    </div>
+
+    <!-- Contenedor principal del chat -->
     <div class="chat-container">
         <header class="chat-header">
             <h1>Visteon's ODN Chat</h1>
         </header>
-
         <div id="chat-box" class="chat-box"></div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Type your message..." autofocus>
-            <button id="send-btn">Send</button>
+            <button id="send-btn" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>

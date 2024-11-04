@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
+    <style>
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .file-list li {
+            background: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .loading-icon {
+            display: none;
+            margin-top: 15px;
+        }
+        .loading-icon i {
+            font-size: 24px;
+            color: #007bff;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Your Files to Vector Store</h2>
+        <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+            <div class="form-group">
+                <label for="file" class="custom-file-label">
+                    <i class="fas fa-upload"></i> Select files to upload
+                </label>
+                <input type="file" name="file" class="custom-file-input" id="file" multiple required onchange="showFileList()">
+            </div>
+            <button type="submit" class="btn">Upload</button>
+        </form>
+
+        <!-- Lista de archivos seleccionados -->
+        <ul id="file-list" class="file-list"></ul>
+
+        <!-- Icono de cargando -->
+        <div id="loading-icon" class="loading-icon">
+            <i class="fas fa-spinner"></i> Uploading...
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        function showFileList() {
+            const fileInput = document.getElementById('file');
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = ''; // Limpiar la lista
+
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = fileInput.files[i].name;
+                fileList.appendChild(listItem);
+            }
+        }
+
+        function showLoading() {
+            // Mostrar el ícono de cargando y deshabilitar el botón de enviar
+            document.getElementById('loading-icon').style.display = 'block';
+            document.querySelector('button[type="submit"]').disabled = true;
+        }
+    </script>
+</body>
+</html>

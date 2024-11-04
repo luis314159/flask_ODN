@@ -3,8 +3,8 @@ name: MyApplication
 version: 1.0
 parameters:
   max_users: 8
-  secret_key: null  # Unset value
-  session_cookie_name: null  # Unset value
+  secret_key: "your-very-secret-key"  # Unset value
+  session_cookie_name: "your_session_cookie"  # Unset value
   max_content_length: null  # Unset value
   debug_mode: true
 servers:
