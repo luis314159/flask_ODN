@@ -229,3 +229,16 @@ if __name__ == '__main__':
     # Configurar el logger de la aplicación
     app.logger.setLevel(logging.INFO)
     serve(app, host=address, port=port)
+
+    """
+    from waitress import serve
+    app.config['DEBUG'] = app_config['parameters']['debug_mode']
+    app.logger.info(f"Starting Waitress server on {address}:{port}")
+    # Configurar el logger de la aplicación
+    app.logger.setLevel(logging.INFO)
+    port=3005
+    #serve(app, host=address, port=port)
+    
+    #app.run(host=address, port=port, debug=True)
+    app.run(host=address, debug=True)
+    """
