@@ -6,6 +6,7 @@ from openai import AzureOpenAI
 from config_loader import load_config
 import time
 import os
+from ldap3 import Server, Connection, ALL
 
 # Cargar configuración de la aplicación
 app_config = load_config('app_config.yaml')
@@ -28,7 +29,6 @@ server = app_config['servers'][environment]
 address = server['address']
 port = server['port']
 
-
 # Azure parameters
 endpoint = azure_config['azure']['endpoint']
 api_key = azure_config['azure']['api_key']
@@ -46,8 +46,6 @@ app.logger.propagate = False
 # Eliminar handlers existentes (si los hay)
 if app.logger.hasHandlers():
     app.logger.handlers.clear()
-
-
 
 # Handler para escribir en archivo
 file_handler = logging.FileHandler('chat_responses.log', mode='a')
@@ -81,37 +79,6 @@ assistant = client.beta.assistants.update(
     tool_resources={"file_search": {"vector_store_ids": vector_store_ids}},
 )
 
-# Upload a file with an "assistants" purpose
-# file_names = ["C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_EfficiencyCT.xlsx", 
-#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_FTT.xlsx", 
-#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_LineUsage&TaktTimeByproduct.xlsx",
-#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_Repairs.xlsx",
-#               "C://luis//ODN//01-DailyNewsforOperations-GenAI//Chennai_SMTL03_11Sep2024_TestStepsFailures.xlsx"]
-
-# Crear los archivos en el servidor
-# file_ids = []
-# for file_name in file_names:
-#     file = client.files.create(
-#         file=open(file_name, "rb"),
-#         purpose='assistants'
-#     )
-#     file_ids.append(file.id)
-
-
-# assistant = client.beta.assistants.create(
-#     instructions="",
-#     model=model,
-#     tools=[{"type": "code_interpreter"}],
-# )
-# assistant = client.beta.assistants.update(
-#     assistant_id=assistant.id,
-#     tool_resources={
-#     "code_interpreter": {
-#       "file_ids": [file_ids]
-#     }
-#   }
-# )
-
 
 # Asegúrate de agregar estas configuraciones al archivo app_config.yaml
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'doc', 'docx', 'xlsx', 'csv'}
@@ -119,6 +86,17 @@ app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'doc', 'docx', 'xlsx', 'csv'}
 def allowed_file(filename):
     allowed_extensions = {'pdf', 'doc', 'docx', 'xlsx', 'csv'}  # Cambia según tus necesidades
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+def get_user_email(username):
+    try:
+        server = Server('ldap://tu_servidor_ldap', get_info=ALL)
+        conn = Connection(server, user='usuario_bind', password='contraseña_bind', auto_bind=True)
+        conn.search('dc=tu_dominio,dc=com', f'(sAMAccountName={username})', attributes=['mail'])
+        if conn.entries:
+            return conn.entries[0]['mail'].value
+    except Exception as e:
+        app.logger.error(f"Error al obtener el correo electrónico: {e}")
+    return None
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -159,8 +137,15 @@ def upload_file():
 
 @app.route('/')
 def index():
-
-    return render_template('index.html')
+    user = request.environ.get('REMOTE_USER')
+    if user:
+        # Si el nombre de usuario viene con el dominio (DOMINIO\usuario), lo separamos
+        username = user.split('\\')[-1]
+        # Obtener el correo electrónico del usuario
+        email = get_user_email(username)
+        return render_template('index.html', username=username, email=email)
+    else:
+        return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():

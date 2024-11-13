@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Contenedor para mostrar el nombre de usuario y correo electrónico -->
+    <div class="user-info">
+        {% if username and email %}
+            <p>Bienvenido, {{ username }} ({{ email }})</p>
+        {% elif username %}
+            <p>Bienvenido, {{ username }}</p>
+        {% else %}
+            <p>Usuario no autenticado.</p>
+        {% endif %}
+    </div>
+
     <!-- Contenedor de preguntas arriba del chat, centrado -->
     <div class="questions-container">
         <div class="questions-header">
