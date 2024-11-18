@@ -7,18 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Contenedor para mostrar el nombre de usuario y correo electrónico -->
+    <!-- Container to display historical data date and today's date -->
+    <div class="date-info">
+        <p>Data available up to: {{ data_date }}</p>
+        <p>Today's date: {{ today_date }}</p>
+    </div>
+
+    <!-- Container to display username and email -->
     <div class="user-info">
         {% if username and email %}
-            <p>Bienvenido, {{ username }} ({{ email }})</p>
+            <p>Welcome, {{ username }} ({{ email }})</p>
         {% elif username %}
-            <p>Bienvenido, {{ username }}</p>
+            <p>Welcome, {{ username }}</p>
         {% else %}
-            <p>Usuario no autenticado.</p>
+            <p>User not authenticated.</p>
         {% endif %}
     </div>
 
-    <!-- Contenedor de preguntas arriba del chat, centrado -->
+    <!-- Questions container above the chat, centered -->
     <div class="questions-container">
         <div class="questions-header">
             <h2>Suggested Questions</h2>
@@ -27,7 +33,7 @@
         <div id="questions-list" class="questions-list"></div>
     </div>
 
-    <!-- Contenedor principal del chat -->
+    <!-- Main chat container -->
     <div class="chat-container">
         <header class="chat-header">
             <h1>Visteon's ODN Chat</h1>

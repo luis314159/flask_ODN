@@ -1,20 +1,23 @@
-
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Body Styles */
+body {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    flex-direction: column;
+    align-items: center; /* Centers all content */
+    justify-content: flex-start;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #74ebd5, #acb6e5);
-} */
+    margin: 0;
+    padding: 20px;
+}
 
+/* Chat Header Styles */
 header.chat-header {
     display: flex;
     align-items: center;
@@ -26,30 +29,13 @@ header.chat-header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-header.chat-header .logo {
-    height: 50px;
-    margin-right: 10px;
-}
-
 header.chat-header h1 {
     color: white;
     font-size: 1.5rem;
     text-align: center;
 }
 
-/* .chat-container {
-    width: 700px;
-    max-width: 95vw;
-    height: 900px;
-    max-height: 95vh;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-} */
-
+/* Chat Container Styles */
 .chat-container {
     width: 700px;
     max-width: 95vw;
@@ -64,21 +50,22 @@ header.chat-header h1 {
 }
 
 .chat-container.collapsed {
-    height: 500px; /* Ajustar para que sea más pequeño con la sección de preguntas */
+    height: 500px; /* Adjusts height when questions section is present */
 }
 
 .chat-container.expanded {
-    height: 700px; /* Ajustar para expandir más */
+    height: 700px; /* Expands more */
 }
 
 .chat-container.intermediate {
     height: 800px;
 }
 
+/* Chat Box Styles */
 .chat-box {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 20px; /* Ajustar el padding si es necesario */
+    padding: 20px; /* Adjust padding if necessary */
     background-color: #f9f9f9;
     border-bottom: 1px solid #ccc;
     height: 100%;
@@ -88,25 +75,26 @@ header.chat-header h1 {
     padding: 10px;
     border-radius: 10px;
     margin: 10px 0;
-    text-align: justify; /* Justificar el texto */
+    text-align: justify; /* Justifies text */
 }
 
 p.user-message {
     background-color: #d1e7dd;
-    text-align: right; /* Alinear a la derecha */
-    text-align-last: left; /* Justificar el texto pero alinear la última línea a la izquierda */
-    margin-left: auto; /* Mover el mensaje del usuario hacia la derecha */
+    text-align: right; /* Aligns to the right */
+    text-align-last: left; /* Justifies text but aligns the last line to the left */
+    margin-left: auto; /* Moves user's message to the right */
     max-width: 80%;
 }
 
 p.assistant-message {
     background-color: #f0f0f0;
-    text-align: left; /* Alinear a la izquierda */
-    text-align-last: left; /* Justificar el texto pero alinear la última línea a la izquierda */
-    margin-right: auto; /* Mover el mensaje del asistente hacia la izquierda */
+    text-align: left; /* Aligns to the left */
+    text-align-last: left; /* Justifies text but aligns the last line to the left */
+    margin-right: auto; /* Moves assistant's message to the left */
     max-width: 80%;
 }
 
+/* Input Container Styles */
 .input-container {
     display: flex;
     padding: 10px;
@@ -141,31 +129,11 @@ p.assistant-message {
 #send-btn:active {
     background-color: #004085;
 }
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Asegura que todo esté centrado */
-    justify-content: flex-start;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
-    margin: 0;
-    padding: 20px;
-}
 
-/* 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
-} */
-
+/* Questions Container Styles */
 .questions-container {
-    width: 100%; /* Mantén el mismo ancho que el chat */
-    max-width: 700px; /* Igual que el ancho del chat */
+    width: 100%; /* Matches the chat width */
+    max-width: 700px;
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f0f4f8;
@@ -177,7 +145,7 @@ body {
 }
 
 .questions-container.hidden {
-    display: none; /* Ocultar completamente la sección */
+    display: none; /* Completely hides the section */
     opacity: 0;
 }
 
@@ -204,13 +172,8 @@ body {
 }
 
 .questions-container.minimized {
-    max-height: 45px; /* Suficiente para mostrar el título */
-    padding: 10px 15px; /* Asegura que se vea bien al minimizar */
-}
-
-
-.questions-container.hidden {
-    display: none; /* Ocultar completamente */
+    max-height: 45px; /* Enough to show the title */
+    padding: 10px 15px; /* Ensures it looks good when minimized */
 }
 
 .questions-list {
@@ -236,6 +199,7 @@ body {
     background-color: #cce7ff;
 }
 
+/* User Info Styles */
 .user-info {
     position: fixed;
     top: 10px;
@@ -249,5 +213,22 @@ body {
 }
 
 .user-info p {
+    margin: 0;
+}
+
+/* Date Info Styles */
+.date-info {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    z-index: 1000;
+}
+
+.date-info p {
     margin: 0;
 }
